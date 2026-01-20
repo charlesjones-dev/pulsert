@@ -1,0 +1,79 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## Build & Run Commands
+
+```bash
+# Build and run (recommended for development)
+./run.sh
+
+# Build release and install to /Applications
+./build.sh --install
+
+# Open in Xcode
+open PulseRT.xcodeproj
+
+# Command-line build
+xcodebuild -project PulseRT.xcodeproj -scheme PulseRT -configuration Debug build
+xcodebuild -project PulseRT.xcodeproj -scheme PulseRT -configuration Release build
+
+# Kill running instance
+pkill -x PulseRT
+```
+
+## Testing
+
+No automated test suite. Manual testing required:
+- Verify menu bar icon appears with user count
+- Verify "Last updated" timestamp shows in dropdown with seconds
+- Test settings window opens in foreground
+- Test settings persistence across restarts
+- Test error handling: missing credentials, invalid JSON, wrong property ID
+- Test network error recovery with exponential backoff
+- Verify token refresh works (1-hour expiry)
+
+## Architecture
+
+Native macOS menu bar app (Swift 6.0, SwiftUI) displaying real-time GA4 visitor counts.
+
+### Core Flow
+```
+PulseRTApp → AnalyticsViewModel (polling) → AnalyticsService → GoogleAuthService → GA4 API
+                                                ↓
+                                         JWTSigner (RS256)
+```
+
+### Key Patterns
+- **Actors** for thread-safe services: `GoogleAuthService`, `AnalyticsService`
+- **@MainActor ObservableObject** for ViewModel: `AnalyticsViewModel`
+- **Exponential backoff**: 10s → 60s max on errors, resets on success
+- **Token caching**: GoogleAuthService caches OAuth tokens with auto-refresh 5 min before expiry
+
+### Directory Structure
+```
+PulseRT/
+├── Models/           # Codable data structures (AppConfiguration, ServiceAccountCredentials, etc.)
+├── Services/         # ConfigurationService, GoogleAuthService, AnalyticsService
+├── ViewModels/       # AnalyticsViewModel (polling state, Published properties)
+├── Views/            # MenuBarView, SettingsView (SwiftUI)
+├── Utilities/        # JWTSigner (RS256 signing with Security framework)
+└── Resources/        # Info.plist, Entitlements, Assets.xcassets (AppIcon)
+```
+
+### Scripts
+- `build.sh` - Build and optionally install to /Applications (generates icons automatically)
+- `run.sh` - Quick build and run for development
+- `generate-icon.py` - Generate app icon (pink background, "RT" initials); auto-creates venv
+
+### Configuration Storage
+- Directory: `~/.config/pulsert/`
+- `credentials.json` - Google service account key (chmod 600)
+- `config.json` - App settings (property ID, refresh interval)
+
+## Code Style
+
+- Swift 6.0 features, Swift API Design Guidelines
+- 4 spaces indentation
+- `let` over `var` when possible
+- Doc comments (`///`) for public APIs with parameter descriptions

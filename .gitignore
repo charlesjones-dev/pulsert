@@ -1,0 +1,116 @@
+# PulseRT .gitignore
+
+# =============================================================================
+# CREDENTIALS - CRITICAL: Never commit service account keys
+# =============================================================================
+credentials.json
+*.pem
+*.p12
+*.key
+service-account*.json
+
+# Local app configuration (contains property IDs)
+config.json
+
+# =============================================================================
+# Xcode
+# =============================================================================
+# Build generated
+build/
+DerivedData/
+*.xcodeproj/xcuserdata/
+*.xcworkspace/xcuserdata/
+
+# Xcode user-specific files
+*.xcuserstate
+*.xcuserdatad/
+xcuserdata/
+
+# Xcode workspace settings
+*.xcworkspace/contents.xcworkspacedata
+!default.xcworkspace/contents.xcworkspacedata
+
+# Playgrounds
+timeline.xctimeline
+playground.xcworkspace
+
+# Archives
+*.xcarchive
+
+# =============================================================================
+# Swift Package Manager
+# =============================================================================
+.build/
+.swiftpm/
+Package.resolved
+Packages/
+*.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/
+
+# =============================================================================
+# macOS
+# =============================================================================
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Thumbnails
+Thumbnails/
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# =============================================================================
+# IDE & Editors
+# =============================================================================
+# VS Code
+.vscode/
+*.code-workspace
+
+# JetBrains (AppCode)
+.idea/
+*.iml
+
+# Vim
+*.swp
+*.swo
+*~
+
+# =============================================================================
+# Build & Distribution
+# =============================================================================
+*.app
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# =============================================================================
+# Testing & Coverage
+# =============================================================================
+*.xcresult
+coverage/
+.coverage
+
+# =============================================================================
+# Python (icon generation)
+# =============================================================================
+.venv/
+__pycache__/
+*.pyc
+
+# =============================================================================
+# Misc
+# =============================================================================
+*.log
+*.tmp
+*.temp
+.env
+.env.local
+
+docs
