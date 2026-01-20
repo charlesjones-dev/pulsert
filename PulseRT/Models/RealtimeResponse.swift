@@ -1,5 +1,7 @@
 import Foundation
 
+// MARK: - RealtimeResponse
+
 /// Response from GA4 Real-Time API runRealtimeReport endpoint
 /// Represents the active user count and related metrics
 struct RealtimeResponse: Codable, Equatable, Sendable {
@@ -15,7 +17,7 @@ struct RealtimeResponse: Codable, Equatable, Sendable {
     /// Extracts the active user count from the response
     /// Returns 0 if rows array is nil or empty (no active users)
     var activeUsers: Int {
-        guard let rows = rows, let firstRow = rows.first else {
+        guard let rows, let firstRow = rows.first else {
             return 0
         }
         guard let firstMetric = firstRow.metricValues?.first else {
@@ -24,6 +26,8 @@ struct RealtimeResponse: Codable, Equatable, Sendable {
         return Int(firstMetric.value) ?? 0
     }
 }
+
+// MARK: - RealtimeRow
 
 /// A single row in the real-time report response
 struct RealtimeRow: Codable, Equatable, Sendable {
@@ -34,17 +38,23 @@ struct RealtimeRow: Codable, Equatable, Sendable {
     let dimensionValues: [RealtimeDimensionValue]?
 }
 
+// MARK: - RealtimeMetricValue
+
 /// A metric value in the response
 struct RealtimeMetricValue: Codable, Equatable, Sendable {
     /// The metric value as a string (numeric values are still strings in the API)
     let value: String
 }
 
+// MARK: - RealtimeDimensionValue
+
 /// A dimension value in the response
 struct RealtimeDimensionValue: Codable, Equatable, Sendable {
     /// The dimension value as a string
     let value: String
 }
+
+// MARK: - RealtimeMetadata
 
 /// Metadata about the real-time report
 struct RealtimeMetadata: Codable, Equatable, Sendable {

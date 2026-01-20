@@ -1,5 +1,7 @@
 import Foundation
 
+// MARK: - TokenResponse
+
 /// Response from Google OAuth token endpoint
 /// Represents the access token received after JWT exchange
 struct TokenResponse: Codable, Equatable, Sendable {
@@ -22,6 +24,8 @@ struct TokenResponse: Codable, Equatable, Sendable {
         case scope
     }
 }
+
+// MARK: - CachedToken
 
 /// Cached access token with expiry tracking
 struct CachedToken: Sendable {

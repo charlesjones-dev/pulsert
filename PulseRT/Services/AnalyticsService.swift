@@ -1,5 +1,7 @@
 import Foundation
 
+// MARK: - AnalyticsError
+
 /// Errors that can occur during Analytics API operations
 enum AnalyticsError: LocalizedError {
     case invalidPropertyId
@@ -13,22 +15,24 @@ enum AnalyticsError: LocalizedError {
         switch self {
         case .invalidPropertyId:
             return "Invalid GA4 property ID"
-        case .authenticationFailed(let error):
+        case let .authenticationFailed(error):
             return "Authentication failed: \(error.localizedDescription)"
-        case .networkError(let error):
+        case let .networkError(error):
             return "Network error: \(error.localizedDescription)"
-        case .httpError(let statusCode, let message):
-            if let message = message {
+        case let .httpError(statusCode, message):
+            if let message {
                 return "API error \(statusCode): \(message)"
             }
             return "API error \(statusCode)"
         case .invalidResponse:
             return "Received invalid response from Analytics API"
-        case .decodingFailed(let error):
+        case let .decodingFailed(error):
             return "Failed to decode response: \(error.localizedDescription)"
         }
     }
 }
+
+// MARK: - AnalyticsService
 
 /// Service for fetching real-time analytics data from GA4 API
 actor AnalyticsService {
@@ -63,7 +67,7 @@ actor AnalyticsService {
     /// - Returns: The number of active users
     func fetchActiveUsers(propertyId: String) async throws -> Int {
         // Validate property ID
-        guard !propertyId.isEmpty, propertyId.allSatisfy({ $0.isNumber }) else {
+        guard !propertyId.isEmpty, propertyId.allSatisfy(\.isNumber) else {
             throw AnalyticsError.invalidPropertyId
         }
 
@@ -76,7 +80,9 @@ actor AnalyticsService {
         }
 
         // Build request
-        let url = URL(string: "\(baseURL)/\(propertyId):runRealtimeReport")!
+        guard let url = URL(string: "\(baseURL)/\(propertyId):runRealtimeReport") else {
+            throw AnalyticsError.invalidPropertyId
+        }
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
@@ -158,12 +164,14 @@ actor AnalyticsService {
     }
 }
 
-// MARK: - Request Models
+// MARK: - RealtimeReportRequest
 
 /// Request body for runRealtimeReport API
 private struct RealtimeReportRequest: Encodable {
     let metrics: [RealtimeMetric]
 }
+
+// MARK: - RealtimeMetric
 
 /// A metric to request in the report
 private struct RealtimeMetric: Encodable {

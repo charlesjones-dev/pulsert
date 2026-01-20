@@ -22,6 +22,6 @@ struct AppConfiguration: Codable, Equatable {
 
     /// Validates that the property ID is a non-empty numeric string
     var isValid: Bool {
-        !propertyId.isEmpty && propertyId.allSatisfy { $0.isNumber }
+        !propertyId.isEmpty && propertyId.allSatisfy(\.isNumber)
     }
 }

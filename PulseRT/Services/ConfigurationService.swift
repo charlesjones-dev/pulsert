@@ -1,5 +1,7 @@
 import Foundation
 
+// MARK: - ConfigurationError
+
 /// Errors that can occur during configuration operations
 enum ConfigurationError: LocalizedError {
     case configDirectoryCreationFailed(Error)
@@ -14,27 +16,29 @@ enum ConfigurationError: LocalizedError {
 
     var errorDescription: String? {
         switch self {
-        case .configDirectoryCreationFailed(let error):
-            return "Failed to create configuration directory: \(error.localizedDescription)"
+        case let .configDirectoryCreationFailed(error):
+            "Failed to create configuration directory: \(error.localizedDescription)"
         case .configFileNotFound:
-            return "Configuration file not found at ~/.config/pulsert/config.json"
-        case .configFileReadFailed(let error):
-            return "Failed to read configuration file: \(error.localizedDescription)"
-        case .configFileWriteFailed(let error):
-            return "Failed to write configuration file: \(error.localizedDescription)"
-        case .configFileInvalidJSON(let error):
-            return "Configuration file contains invalid JSON: \(error.localizedDescription)"
+            "Configuration file not found at ~/.config/pulsert/config.json"
+        case let .configFileReadFailed(error):
+            "Failed to read configuration file: \(error.localizedDescription)"
+        case let .configFileWriteFailed(error):
+            "Failed to write configuration file: \(error.localizedDescription)"
+        case let .configFileInvalidJSON(error):
+            "Configuration file contains invalid JSON: \(error.localizedDescription)"
         case .credentialsFileNotFound:
-            return "Credentials file not found at ~/.config/pulsert/credentials.json"
-        case .credentialsFileReadFailed(let error):
-            return "Failed to read credentials file: \(error.localizedDescription)"
-        case .credentialsFileInvalidJSON(let error):
-            return "Credentials file contains invalid JSON: \(error.localizedDescription)"
-        case .credentialsInvalidStructure(let message):
-            return "Invalid credentials structure: \(message)"
+            "Credentials file not found at ~/.config/pulsert/credentials.json"
+        case let .credentialsFileReadFailed(error):
+            "Failed to read credentials file: \(error.localizedDescription)"
+        case let .credentialsFileInvalidJSON(error):
+            "Credentials file contains invalid JSON: \(error.localizedDescription)"
+        case let .credentialsInvalidStructure(message):
+            "Invalid credentials structure: \(message)"
         }
     }
 }
+
+// MARK: - ConfigurationService
 
 /// Service for managing PulseRT configuration and credentials files
 final class ConfigurationService: @unchecked Sendable {
@@ -145,8 +149,7 @@ final class ConfigurationService: @unchecked Sendable {
         } catch ConfigurationError.configFileNotFound {
             return .default
         } catch {
-            // Log error but return default
-            print("Warning: Failed to load configuration: \(error.localizedDescription)")
+            // Return default on error (file may not exist yet)
             return .default
         }
     }
@@ -189,7 +192,7 @@ final class ConfigurationService: @unchecked Sendable {
             throw ConfigurationError.credentialsInvalidStructure("Private key is empty")
         }
 
-        guard credentials.privateKey.contains("BEGIN") && credentials.privateKey.contains("PRIVATE KEY") else {
+        guard credentials.privateKey.contains("BEGIN"), credentials.privateKey.contains("PRIVATE KEY") else {
             throw ConfigurationError.credentialsInvalidStructure(
                 "Private key does not appear to be in PEM format"
             )

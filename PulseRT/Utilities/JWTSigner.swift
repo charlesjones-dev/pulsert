@@ -1,6 +1,8 @@
 import Foundation
 import Security
 
+// MARK: - JWTSignerError
+
 /// Errors that can occur during JWT signing operations
 enum JWTSignerError: LocalizedError {
     case invalidPEMFormat
@@ -12,18 +14,20 @@ enum JWTSignerError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .invalidPEMFormat:
-            return "Private key is not in valid PEM format"
+            "Private key is not in valid PEM format"
         case .pemDecodingFailed:
-            return "Failed to decode PEM private key data"
-        case .privateKeyCreationFailed(let status):
-            return "Failed to create private key from data: OSStatus \(status)"
-        case .signingFailed(let status):
-            return "Failed to sign JWT: OSStatus \(status)"
+            "Failed to decode PEM private key data"
+        case let .privateKeyCreationFailed(status):
+            "Failed to create private key from data: OSStatus \(status)"
+        case let .signingFailed(status):
+            "Failed to sign JWT: OSStatus \(status)"
         case .encodingFailed:
-            return "Failed to encode JWT components"
+            "Failed to encode JWT components"
         }
     }
 }
+
+// MARK: - JWTClaims
 
 /// JWT claims for Google OAuth service account authentication
 struct JWTClaims: Encodable {
@@ -42,6 +46,8 @@ struct JWTClaims: Encodable {
     /// Expiration - Unix timestamp
     let exp: Int
 }
+
+// MARK: - JWTSigner
 
 /// Utility for creating and signing JWTs using RS256
 final class JWTSigner: Sendable {
@@ -204,7 +210,7 @@ final class JWTSigner: Sendable {
         index = skipASN1Length(bytes: bytes, index: index)
 
         // Skip algorithm OID and parameters
-        while index < bytes.count && bytes[index] != 0x04 {
+        while index < bytes.count, bytes[index] != 0x04 {
             if bytes[index] == 0x06 { // OID
                 index += 1
                 let oidLength = Int(bytes[index])

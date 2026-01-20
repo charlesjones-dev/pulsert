@@ -1,5 +1,7 @@
-import Foundation
 import Combine
+import Foundation
+
+// MARK: - ConnectionState
 
 /// Represents the current connection state of the analytics polling
 enum ConnectionState: Equatable, Sendable {
@@ -18,16 +20,18 @@ enum ConnectionState: Equatable, Sendable {
     var description: String {
         switch self {
         case .disconnected:
-            return "Disconnected"
+            "Disconnected"
         case .connecting:
-            return "Connecting..."
+            "Connecting..."
         case .connected:
-            return "Connected"
-        case .error(let message):
-            return "Error: \(message)"
+            "Connected"
+        case let .error(message):
+            "Error: \(message)"
         }
     }
 }
+
+// MARK: - AnalyticsViewModel
 
 /// ViewModel for managing GA4 real-time analytics polling
 @MainActor
@@ -102,17 +106,16 @@ final class AnalyticsViewModel: ObservableObject {
         backoffSeconds = minBackoffSeconds
 
         pollingTask = Task { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
 
             while !Task.isCancelled {
                 await self.fetchActiveUsers()
 
                 // Determine sleep interval based on connection state
-                let sleepInterval: Int
-                if case .error = self.connectionState {
-                    sleepInterval = self.backoffSeconds
+                let sleepInterval: Int = if case .error = self.connectionState {
+                    self.backoffSeconds
                 } else {
-                    sleepInterval = self.getRefreshInterval()
+                    self.getRefreshInterval()
                 }
 
                 do {
@@ -160,7 +163,6 @@ final class AnalyticsViewModel: ObservableObject {
 
             // Reset backoff on success
             resetBackoff()
-
         } catch {
             // Error - apply backoff
             let errorMessage = error.localizedDescription

@@ -71,9 +71,45 @@ PulseRT/
 - `credentials.json` - Google service account key (chmod 600)
 - `config.json` - App settings (property ID, refresh interval)
 
+## Linting & Formatting
+
+```bash
+# Run linter
+swiftlint lint PulseRT
+
+# Run linter with auto-fix
+swiftlint lint --fix PulseRT
+
+# Check formatting
+swiftformat --lint PulseRT
+
+# Fix formatting
+swiftformat PulseRT
+```
+
+Configuration files: `.swiftlint.yml`, `.swiftformat`
+
+## Changelog and Versioning
+
+After preflight checks pass, use the `AskUserQuestion` tool to ask how to handle versioning:
+
+- **Current version** - Add the feature/fix to the existing version section in `CHANGELOG.md`
+- **New version** - Increment version in Xcode project, then add a new section in `CHANGELOG.md`
+- **Skip** - Do nothing
+
+When incrementing versions:
+- Patch (x.x.X): Bug fixes, minor improvements
+- Minor (x.X.0): New features, non-breaking changes
+- Major (X.0.0): Breaking changes
+
+Files to update for new versions:
+- `PulseRT.xcodeproj/project.pbxproj` - Update `MARKETING_VERSION` (both Debug and Release configurations)
+- `CHANGELOG.md` - Add new version section with date
+
 ## Code Style
 
 - Swift 6.0 features, Swift API Design Guidelines
 - 4 spaces indentation
+- 120 character line limit
 - `let` over `var` when possible
 - Doc comments (`///`) for public APIs with parameter descriptions

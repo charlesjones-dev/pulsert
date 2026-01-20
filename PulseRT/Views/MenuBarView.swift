@@ -33,7 +33,22 @@ struct MenuBarView: View {
                 Text("Quit PulseRT")
             }
             .keyboardShortcut("q", modifiers: .command)
+
+            Divider()
+
+            // Version footer
+            Text("PulseRT v\(appVersion)")
+                .font(.caption2)
+                .foregroundStyle(.tertiary)
+                .padding(.horizontal, 14)
+                .padding(.vertical, 6)
         }
+    }
+
+    // MARK: - App Version
+
+    private var appVersion: String {
+        Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.0"
     }
 
     // MARK: - Subviews
@@ -73,13 +88,13 @@ struct MenuBarView: View {
     private var statusColor: Color {
         switch viewModel.connectionState {
         case .connected:
-            return .green
+            .green
         case .connecting:
-            return .gray
+            .gray
         case .disconnected:
-            return .gray
+            .gray
         case .error:
-            return .orange
+            .orange
         }
     }
 
@@ -94,7 +109,7 @@ struct MenuBarView: View {
             return "Connecting..."
         case .disconnected:
             return "Disconnected"
-        case .error(let message):
+        case let .error(message):
             // Truncate long error messages
             let truncated = message.prefix(30)
             return truncated.count < message.count ? "\(truncated)..." : message

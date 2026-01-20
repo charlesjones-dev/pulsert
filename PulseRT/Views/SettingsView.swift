@@ -1,5 +1,7 @@
 import SwiftUI
 
+// MARK: - CredentialStatus
+
 /// Represents the credential loading status
 enum CredentialStatus: Equatable {
     case notFound
@@ -14,6 +16,8 @@ enum CredentialStatus: Equatable {
         return false
     }
 }
+
+// MARK: - SettingsView
 
 /// Settings window view with full configuration UI
 struct SettingsView: View {
@@ -56,7 +60,15 @@ struct SettingsView: View {
         }
         .padding(32)
         .frame(width: 480, height: 460)
-        .onAppear(perform: loadCurrentSettings)
+        .onAppear {
+            loadCurrentSettings()
+            // Show dock icon when settings window is open
+            NSApplication.shared.setActivationPolicy(.regular)
+        }
+        .onDisappear {
+            // Hide dock icon when settings window closes
+            NSApplication.shared.setActivationPolicy(.accessory)
+        }
     }
 
     // MARK: - Credentials Section
@@ -86,7 +98,7 @@ struct SettingsView: View {
     @ViewBuilder
     private var credentialStatusRow: some View {
         switch credentialStatus {
-        case .loaded(let email):
+        case let .loaded(email):
             HStack(spacing: 8) {
                 Image(systemName: "checkmark.circle.fill")
                     .foregroundStyle(.green)
@@ -112,7 +124,7 @@ struct SettingsView: View {
                 }
             }
 
-        case .invalidJSON(let message):
+        case let .invalidJSON(message):
             HStack(spacing: 8) {
                 Image(systemName: "xmark.circle.fill")
                     .foregroundStyle(.red)
@@ -126,7 +138,7 @@ struct SettingsView: View {
                 }
             }
 
-        case .invalidStructure(let message):
+        case let .invalidStructure(message):
             HStack(spacing: 8) {
                 Image(systemName: "xmark.circle.fill")
                     .foregroundStyle(.red)
@@ -154,14 +166,14 @@ struct SettingsView: View {
                     .textFieldStyle(.roundedBorder)
                     .onChange(of: propertyId) { _, newValue in
                         // Filter to only allow numeric characters
-                        let filtered = newValue.filter { $0.isNumber }
+                        let filtered = newValue.filter(\.isNumber)
                         if filtered != newValue {
                             propertyId = filtered
                         }
                         // Clear validation error when user edits
                         showValidationError = false
                     }
-                if showValidationError && !validationErrorMessage.isEmpty {
+                if showValidationError, !validationErrorMessage.isEmpty {
                     Text(validationErrorMessage)
                         .font(.caption)
                         .foregroundStyle(.red)
@@ -239,9 +251,9 @@ struct SettingsView: View {
             credentialStatus = .loaded(email: credentials.clientEmail)
         } catch ConfigurationError.credentialsFileNotFound {
             credentialStatus = .notFound
-        } catch ConfigurationError.credentialsFileInvalidJSON(let error) {
+        } catch let ConfigurationError.credentialsFileInvalidJSON(error) {
             credentialStatus = .invalidJSON(error.localizedDescription)
-        } catch ConfigurationError.credentialsInvalidStructure(let message) {
+        } catch let ConfigurationError.credentialsInvalidStructure(message) {
             credentialStatus = .invalidStructure(message)
         } catch {
             credentialStatus = .invalidJSON(error.localizedDescription)
@@ -272,7 +284,7 @@ struct SettingsView: View {
             return
         }
 
-        if !propertyId.allSatisfy({ $0.isNumber }) {
+        if !propertyId.allSatisfy(\.isNumber) {
             validationErrorMessage = "Property ID must contain only numbers"
             showValidationError = true
             return

@@ -29,13 +29,13 @@ struct PulseRTApp: App {
     private var iconColor: Color {
         switch viewModel.connectionState {
         case .connected:
-            return .primary
+            .primary
         case .connecting:
-            return .secondary
+            .secondary
         case .disconnected:
-            return .secondary
+            .secondary
         case .error:
-            return .orange
+            .orange
         }
     }
 
@@ -43,13 +43,13 @@ struct PulseRTApp: App {
     private var countColor: Color {
         switch viewModel.connectionState {
         case .connected:
-            return .primary
+            .primary
         case .connecting:
-            return .secondary
+            .secondary
         case .disconnected:
-            return .secondary
+            .secondary
         case .error:
-            return .orange
+            .orange
         }
     }
 }

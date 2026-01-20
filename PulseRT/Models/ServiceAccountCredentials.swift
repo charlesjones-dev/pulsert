@@ -53,9 +53,9 @@ struct ServiceAccountCredentials: Codable, Equatable {
     /// Validates that this is a valid service account credential
     var isValid: Bool {
         type == "service_account" &&
-        !privateKey.isEmpty &&
-        !clientEmail.isEmpty &&
-        privateKey.contains("BEGIN") &&
-        privateKey.contains("PRIVATE KEY")
+            !privateKey.isEmpty &&
+            !clientEmail.isEmpty &&
+            privateKey.contains("BEGIN") &&
+            privateKey.contains("PRIVATE KEY")
     }
 }

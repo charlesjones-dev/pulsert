@@ -1,5 +1,7 @@
 import Foundation
 
+// MARK: - GoogleAuthError
+
 /// Errors that can occur during Google authentication
 enum GoogleAuthError: LocalizedError {
     case credentialsNotConfigured
@@ -13,22 +15,24 @@ enum GoogleAuthError: LocalizedError {
         switch self {
         case .credentialsNotConfigured:
             return "Service account credentials are not configured"
-        case .jwtCreationFailed(let error):
+        case let .jwtCreationFailed(error):
             return "Failed to create JWT: \(error.localizedDescription)"
-        case .tokenExchangeFailed(let error):
+        case let .tokenExchangeFailed(error):
             return "Failed to exchange JWT for access token: \(error.localizedDescription)"
         case .invalidTokenResponse:
             return "Received invalid token response from Google"
-        case .httpError(let statusCode, let message):
-            if let message = message {
+        case let .httpError(statusCode, message):
+            if let message {
                 return "HTTP error \(statusCode): \(message)"
             }
             return "HTTP error \(statusCode)"
-        case .networkError(let error):
+        case let .networkError(error):
             return "Network error: \(error.localizedDescription)"
         }
     }
 }
+
+// MARK: - GoogleAuthService
 
 /// Service for authenticating with Google APIs using service account credentials
 actor GoogleAuthService {
@@ -36,7 +40,8 @@ actor GoogleAuthService {
     static let shared = GoogleAuthService()
 
     /// Google OAuth token endpoint
-    private let tokenEndpoint = URL(string: "https://oauth2.googleapis.com/token")!
+    private let tokenEndpoint =
+        URL(string: "https://oauth2.googleapis.com/token")! // swiftlint:disable:this force_unwrapping
 
     /// Cached access token
     private var cachedToken: CachedToken?
@@ -131,7 +136,10 @@ actor GoogleAuthService {
 
         // Build form body
         let grantType = "urn:ietf:params:oauth:grant-type:jwt-bearer"
-        let body = "grant_type=\(grantType.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? grantType)&assertion=\(jwt)"
+        let encodedGrantType = grantType.addingPercentEncoding(
+            withAllowedCharacters: .urlQueryAllowed
+        ) ?? grantType
+        let body = "grant_type=\(encodedGrantType)&assertion=\(jwt)"
         request.httpBody = body.data(using: .utf8)
 
         // Send request
