@@ -16,7 +16,6 @@ A native macOS menu bar application that displays real-time Google Analytics 4 v
 - **Secure authentication** - Uses Google service account with local credential storage
 - **Configurable refresh** - Choose polling intervals from 5 to 60 seconds
 - **Minimal footprint** - Menu bar only, no dock icon
-- **Multiple properties** - Easy to switch between GA4 properties
 
 ## Requirements
 
