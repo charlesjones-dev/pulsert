@@ -1,5 +1,10 @@
 # PulseRT
 
+> [!WARNING]
+> **Retired — September 2026.** PulseRT is unmaintained and will receive no further maintenance, features, bug fixes, or security updates. Support and contributions to this repository have ended.
+>
+> The source and documentation remain available for historical reference. Independent forks are welcome under the existing [MIT License](LICENSE), including its copyright and permission notice requirements.
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![macOS](https://img.shields.io/badge/macOS-15+-000000?logo=apple)](https://developer.apple.com/macos/)
 [![Swift](https://img.shields.io/badge/Swift-6.0+-F05138?logo=swift&logoColor=white)](https://swift.org)
@@ -17,7 +22,7 @@ A native macOS menu bar application that displays real-time Google Analytics 4 v
 - **Configurable refresh** - Choose polling intervals from 5 to 60 seconds
 - **Minimal footprint** - Menu bar only, no dock icon
 
-## Requirements
+## Historical Requirements
 
 - macOS 15 (Sequoia) or later
 - Xcode 16+ (for building from source)
@@ -26,7 +31,11 @@ A native macOS menu bar application that displays real-time Google Analytics 4 v
 - Google Analytics 4 property with Real-Time API access
 - Google Cloud service account with Analytics Data API enabled
 
-## Setup
+<a id="setup"></a>
+
+## Historical Setup
+
+These instructions describe the retired project and are retained for reference by independent forks. They are not an installation recommendation and are no longer maintained or verified against current tools and services.
 
 ### Step 1: Create a Google Cloud Project
 
@@ -98,9 +107,9 @@ Or build from command line:
 xcodebuild -project PulseRT.xcodeproj -scheme PulseRT -configuration Release
 ```
 
-### Installing to Applications Folder
+### Historical Applications Folder Installation
 
-Use the build script to create and install a standalone `.app`:
+The build script supported creating and installing a standalone `.app`:
 
 ```bash
 # Build only
@@ -110,7 +119,7 @@ Use the build script to create and install a standalone `.app`:
 ./build.sh --install
 ```
 
-The `--install` flag will:
+The `--install` flag was designed to:
 
 - Generate the app icon (pink background with "RT" initials)
 - Build a release version
@@ -156,7 +165,9 @@ PulseRT stores configuration in `~/.config/pulsert/`:
 | Display Name | Friendly name shown in menu | Property ID |
 | Refresh Interval | Polling frequency | 10 seconds |
 
-## Troubleshooting
+## Historical Troubleshooting
+
+These notes are retained as reference only; maintainer support is no longer available. See [SUPPORT.md](SUPPORT.md) for retirement details and external services to review.
 
 ### "Credentials not found"
 
@@ -211,7 +222,11 @@ Note: This is different from the Measurement ID (which starts with "G-").
 
 ## Contributing
 
-Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+This repository no longer accepts bug reports, feature requests, or pull requests. Independent forks are welcome under the [MIT License](LICENSE). See [CONTRIBUTING.md](CONTRIBUTING.md) for historical development reference.
+
+## Historical Plans
+
+There is no active roadmap or planned future work. The [original implementation plan](https://github.com/charlesjones-dev/pulsert/blob/be9d8fa/docs/plans/pulsert-implementation.md), retained in Git history, is historical documentation; any unfinished items are not commitments to future work.
 
 ## License
 
@@ -220,7 +235,3 @@ MIT License - see [LICENSE](LICENSE) for details.
 ## Author
 
 Created by [Charles Jones](https://charlesjones.dev)
-
----
-
-**PulseRT** - Real-time analytics at a glance
