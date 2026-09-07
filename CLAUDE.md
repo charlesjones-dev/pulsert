@@ -1,11 +1,13 @@
 # CLAUDE.md
 
+**Retired — September 2026.** PulseRT will receive no further maintenance, features, bug fixes, or security updates. The build, testing, architecture, and release guidance below is historical documentation for independent forks. It does not authorize further releases or version changes for this repository. See [README.md](README.md) and [SUPPORT.md](SUPPORT.md) for the retirement status.
+
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Build & Run Commands
+## Historical Build & Run Commands
 
 ```bash
-# Build and run (recommended for development)
+# Historical development build and run
 ./run.sh
 
 # Build release and install to /Applications
@@ -89,7 +91,7 @@ swiftformat PulseRT
 
 Configuration files: `.swiftlint.yml`, `.swiftformat`
 
-## Changelog and Versioning
+## Historical Changelog and Versioning
 
 After preflight checks pass, use the `AskUserQuestion` tool to ask how to handle versioning:
 

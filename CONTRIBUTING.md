@@ -1,40 +1,12 @@
 # Contributing to PulseRT
 
-Thank you for your interest in contributing to PulseRT! This document provides guidelines and instructions for contributing.
+**Retired — September 2026.** PulseRT is unmaintained. This repository no longer accepts contributions, pull requests, bug reports, or feature requests. There will be no further maintenance, features, bug fixes, or security updates.
 
-## Ways to Contribute
+Independent forks are welcome under the existing [MIT License](LICENSE). Preserve its copyright and permission notices as required. Fork maintainers are responsible for their own development, support, and security policies.
 
-- **Report bugs** - Found something broken? Let us know
-- **Suggest features** - Have an idea? We'd love to hear it
-- **Submit pull requests** - Code contributions are welcome
-- **Improve documentation** - Help make the docs clearer
-- **Share feedback** - Tell us about your experience
+See [SUPPORT.md](SUPPORT.md) for retirement details. The development instructions and conventions below are historical documentation for reference by independent forks, not a request to contribute to this repository. They are no longer maintained or verified against current tools.
 
-## Bug Reports
-
-Before reporting a bug, please:
-
-1. Search existing issues to avoid duplicates
-2. Try the latest version to see if it's already fixed
-
-When reporting, include:
-
-- macOS version
-- PulseRT version or commit hash
-- Steps to reproduce
-- Expected vs actual behavior
-- Any error messages (check Console.app for logs)
-- Screenshots if relevant
-
-## Feature Suggestions
-
-Open an issue with:
-
-- Clear description of the feature
-- Use case - why is this useful?
-- Any implementation ideas (optional)
-
-## Development Setup
+## Historical Development Setup
 
 ### Prerequisites
 
@@ -42,7 +14,7 @@ Open an issue with:
 - Xcode 16+
 - Git
 
-### Getting Started
+### Historical Local Setup
 
 1. Fork the repository on GitHub
 
@@ -78,7 +50,7 @@ PulseRT/
 └── Resources/           # Assets, Info.plist
 ```
 
-## Code Style Guidelines
+## Historical Code Style Guidelines
 
 ### Swift Style
 
@@ -115,34 +87,6 @@ func fetchActiveUsers(propertyId: String) async throws -> Int {
 }
 ```
 
-## Pull Request Process
-
-1. **Create a branch** from `main`:
-   ```bash
-   git checkout -b feature/your-feature-name
-   ```
-
-2. **Make your changes**:
-   - Keep commits focused and atomic
-   - Write clear commit messages
-   - Test your changes thoroughly
-
-3. **Push to your fork**:
-   ```bash
-   git push origin feature/your-feature-name
-   ```
-
-4. **Open a Pull Request**:
-   - Provide a clear title and description
-   - Reference any related issues
-   - Include screenshots for UI changes
-   - List any breaking changes
-
-5. **Respond to feedback**:
-   - Address review comments
-   - Push additional commits as needed
-   - Keep the PR updated with `main` if needed
-
 ### Commit Messages
 
 - Use present tense: "Add feature" not "Added feature"
@@ -159,7 +103,7 @@ Fix token refresh not triggering before expiry
 Update README with troubleshooting section
 ```
 
-## Testing
+## Historical Testing
 
 - Test manually on macOS 26
 - Verify menu bar appearance and behavior
@@ -167,24 +111,16 @@ Update README with troubleshooting section
 - Check error handling with invalid credentials
 - Test network error recovery
 
-## Security Considerations
+## Historical Security Considerations
 
 - Never commit real credentials
 - Don't log sensitive information (tokens, keys)
 - Validate all user input
 - See [SECURITY.md](SECURITY.md) for more details
 
-## Code of Conduct
+## Historical Code of Conduct
 
 - Be respectful and inclusive
 - Assume good intent
 - Focus on constructive feedback
 - Welcome newcomers
-
-## Questions?
-
-Open an issue with the "question" label or reach out to the maintainers.
-
----
-
-Thank you for contributing to PulseRT!

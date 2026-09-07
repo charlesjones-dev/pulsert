@@ -1,6 +1,10 @@
 # Security Policy
 
-## Credential Security
+**Retired — September 2026.** PulseRT is unmaintained. No versions are supported, and no further security updates or vulnerability fixes will be provided. Maintainer vulnerability reporting and response commitments have ended.
+
+The credential handling and application notes below are historical documentation, not an assurance that the retired application is secure. See [SUPPORT.md](SUPPORT.md) for external services and credentials that may need separate retirement.
+
+## Historical Credential Security
 
 PulseRT uses Google Cloud service account credentials to authenticate with the Analytics Data API. These credentials provide API access and must be protected.
 
@@ -60,7 +64,7 @@ If you suspect your credentials have been exposed:
 5. Update your local credentials file
 6. Consider creating an entirely new service account
 
-## Application Security
+## Historical Application Security
 
 ### Data Handling
 
@@ -83,41 +87,15 @@ If you suspect your credentials have been exposed:
 
 ## Reporting Vulnerabilities
 
-If you discover a security vulnerability in PulseRT:
-
-1. **Do not** open a public issue
-2. Email the maintainer directly (see [charlesjones.dev](https://charlesjones.dev) for contact)
-3. Include:
-   - Description of the vulnerability
-   - Steps to reproduce
-   - Potential impact
-   - Any suggested fixes (optional)
-
-### Response Timeline
-
-- **Acknowledgment**: Within 48 hours
-- **Initial assessment**: Within 7 days
-- **Fix timeline**: Depends on severity
-  - Critical: 24-72 hours
-  - High: 1-2 weeks
-  - Medium/Low: Next release
-
-### Disclosure Policy
-
-- Vulnerabilities will be fixed before public disclosure
-- Credit will be given to reporters (unless anonymity is requested)
-- A security advisory will be published for significant issues
+The retired project no longer provides vulnerability triage, responses, fixes, or coordinated disclosure. Do not send vulnerability reports or credentials to the former maintainer. For an independently maintained fork, follow that fork's security policy.
 
 ## Supported Versions
 
 | Version | Supported |
 |---------|-----------|
-| Latest  | Yes       |
-| Older   | No        |
+| All versions | No — retired; no security updates |
 
-Only the latest release receives security updates. Users are encouraged to stay current.
-
-## Security Best Practices
+## Historical Security Best Practices
 
 When using PulseRT:
 
